@@ -88,7 +88,7 @@ class Ui_Form(QWidget):
         self.page_4.setObjectName("page_4")
         self.stackedWidget.addWidget(self.page_4)
         self.page_5 = QtWidgets.QWidget()
-        self.page_4.setLayout(IMS.Add.Ui_Form().setupUi())
+        self.page_4.setLayout(IMS.Add.Ui_Form().setupUi(self.file))
 
         self.page_5.setObjectName("page_5")
         self.stackedWidget.addWidget(self.page_5)
@@ -191,90 +191,6 @@ class Ui_Form(QWidget):
 
     def display(self,index):
         self.stackedWidget.setCurrentIndex(index)
-
-    # def view1(self):
-    #     print("view:",self.file)
-    #     self.gridLayout = QtWidgets.QGridLayout()
-    #     self.gridLayout.setContentsMargins(0, 0, 0, 0)
-    #     self.gridLayout.setObjectName("gridLayout")
-    #     # 输入栏
-    #     self.lineEdit = QtWidgets.QLineEdit()
-    #     self.lineEdit.setEnabled(True)
-    #     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-    #     sizePolicy.setHorizontalStretch(5)
-    #     sizePolicy.setVerticalStretch(1)
-    #     sizePolicy.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
-    #     self.lineEdit.setSizePolicy(sizePolicy)
-    #     self.lineEdit.setObjectName("lineEdit")
-    #     self.gridLayout.addWidget(self.lineEdit, 4, 1, 1, 2)
-    #     # 查询按钮
-    #     self.pushButton = QtWidgets.QPushButton()
-    #     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-    #     sizePolicy.setHorizontalStretch(3)
-    #     sizePolicy.setVerticalStretch(1)
-    #     sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-    #     self.pushButton.setSizePolicy(sizePolicy)
-    #     self.pushButton.setObjectName("pushButton")
-    #     self.pushButton.setText("查找")
-    #     self.gridLayout.addWidget(self.pushButton, 4, 4, 1, 1)
-    #     self.pushButton.clicked.connect(lambda: self.upd())#view().type(self.comboBox.currentIndex(), self.lineEdit, self.file,self.model)
-    #     # 选择查询方式
-    #     self.comboBox = QtWidgets.QComboBox()
-    #     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-    #     sizePolicy.setHorizontalStretch(3)
-    #     sizePolicy.setVerticalStretch(2)
-    #     sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
-    #     self.comboBox.setSizePolicy(sizePolicy)
-    #     self.comboBox.setObjectName("comboBox")
-    #     # self.comboBox.addItem("查找全部")
-    #     # self.comboBox.addItem("按学号查找")
-    #     # self.comboBox.addItem("按姓名查找")
-    #     # self.comboBox.addItem("按专业查找")
-    #     # self.comboBox.addItem("按课程名查找")
-    #     self.comboBox.addItems(["查找全部","按学号查找","按姓名查找","按专业查找","按课程名查找"])
-    #     print(self.comboBox.currentIndex())
-    #     print("main-text", self.comboBox.currentText())
-    #     self.comboBox.currentIndexChanged.connect(lambda :self.sel())
-    #     self.lineEdit.setText("wguk")
-    #     print("main-line",self.lineEdit.text() )
-    #     self.gridLayout.addWidget(self.comboBox, 4, 3, 1, 1)
-    #     # 显示模块
-    #     self.tableView = QtWidgets.QTableView()
-    #     ssizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-    #     sizePolicy.setHorizontalStretch(0)
-    #     sizePolicy.setVerticalStretch(50)
-    #     sizePolicy.setHeightForWidth(self.tableView.sizePolicy().hasHeightForWidth())
-    #     self.tableView.setSizePolicy(sizePolicy)
-    #     self.tableView.setObjectName("tableView")
-    #     self.gridLayout.addWidget(self.tableView, 5, 1, 1, 4)
-    #
-    #     self.model = QStandardItemModel()
-    #     self.model.setHorizontalHeaderLabels(['Sno', 'Name', 'Age', "Sex", "Is", "Course"])
-    #     self.tableView.setModel(self.model)
-    #     # 水平方向标签拓展剩下的窗口部分，填满表格
-    #     self.tableView.horizontalHeader().setStretchLastSection(True)
-    #     # 水平方向，表格大小拓展到适当的尺寸
-    #     self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-    #     # tableView.setEnabled(False)  #设置表格不可编
-    #
-    #     # 标题背景模块
-    #     self.label = QtWidgets.QLabel()
-    #     self.label.setEnabled(True)
-    #     sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-    #     sizePolicy.setHorizontalStretch(0)
-    #     sizePolicy.setVerticalStretch(5)
-    #     sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-    #     self.label.setSizePolicy(sizePolicy)
-    #     self.label.setObjectName("label")
-    #
-    #     pix = QPixmap('D:\Project\IMS\软件界面\查找11.jpg')
-    #     self.label.setPixmap(pix)
-    #     #self.label.setStyleSheet("border: 2px solid red")
-    #     self.label.setScaledContents(True)
-    #
-    #     self.gridLayout.addWidget(self.label, 1, 1, 2, 4)
-    #
-    #     self.page_3.setLayout(self.gridLayout)
 
     def upd(self):
         if self.model.rowCount() != 0:
