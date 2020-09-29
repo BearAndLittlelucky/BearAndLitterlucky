@@ -12,11 +12,12 @@ from PyQt5.QtWidgets import *
 import json
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-
+import IMS.FileOperation as files
 
 
 class Ui_Form(QWidget):
-    def setupUi(self):
+    def setupUi(self,file):
+        self.file = file
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
@@ -57,6 +58,8 @@ class Ui_Form(QWidget):
         self.lineEdit_3.setSizePolicy(sizePolicy)
         self.lineEdit_3.setMinimumSize(QtCore.QSize(50, 0))
         self.lineEdit_3.setObjectName("lineEdit_3")
+        self.lineEdit_3.setValidator(self.rx(1))
+        self.lineEdit_3.setPlaceholderText('请输入名字')  ##
         self.horizontalLayout.addWidget(self.lineEdit_3)
         self.label_10 = QtWidgets.QLabel()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -88,6 +91,8 @@ class Ui_Form(QWidget):
         sizePolicy.setHeightForWidth(self.lineEdit_4.sizePolicy().hasHeightForWidth())
         self.lineEdit_4.setSizePolicy(sizePolicy)
         self.lineEdit_4.setObjectName("lineEdit_4")
+        self.lineEdit_4.setValidator(self.rx(0))
+        self.lineEdit_4.setPlaceholderText('请输入学号（10位数字）')  ##
         self.horizontalLayout_2.addWidget(self.lineEdit_4)
         self.label_11 = QtWidgets.QLabel()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -153,6 +158,8 @@ class Ui_Form(QWidget):
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.comboBox.setObjectName("comboBox")
+        self.comboBox.setEditable(True)  # 可编辑
+        self.comboBox.addItems(['',"18","19","20",'21','22','23','24','25','26','27'])
         self.horizontalLayout_4.addWidget(self.comboBox)
         self.label_6 = QtWidgets.QLabel()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -185,6 +192,8 @@ class Ui_Form(QWidget):
         self.comboBox_2.setSizePolicy(sizePolicy)
         self.comboBox_2.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.comboBox_2.setObjectName("comboBox_2")
+        self.comboBox_2.setEditable(True)  # 可编辑
+        self.comboBox_2.addItems(['','YY','BG','MM','DK','CH'])
         self.horizontalLayout_5.addWidget(self.comboBox_2)
         self.label_7 = QtWidgets.QLabel()
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
@@ -278,10 +287,11 @@ class Ui_Form(QWidget):
         self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(lambda :self.addition())
         self.horizontalLayout_6.addWidget(self.pushButton)
         self.verticalLayout.addLayout(self.horizontalLayout_6)
         self.horizontalLayout_7.addLayout(self.verticalLayout)
-
+        #右侧位置置空
         spacerItem2 = QtWidgets.QSpacerItem(500, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem2)
 
@@ -307,7 +317,70 @@ class Ui_Form(QWidget):
         self.checkBox_10.setText("J")
         self.pushButton.setText("添加")
 
-
-
         return self.horizontalLayout_7
+
+    #输入规则
+    def rx(self,n):
+        if n == 1:
+            # 正则表达式：中文和字母
+            reg = QRegExp('[a-zA-Z\u4e00-\u9fa5]+$')
+        else:
+            # 正则表达式：10位数字
+            reg = QRegExp('[0-9_]{10}')
+        validator = QRegExpValidator()
+        validator.setRegExp(reg)
+        return validator
+
+    #添加信息
+    def addition(self):
+        #判断必填项不为空
+        if not self.lineEdit_3.text():
+            QMessageBox.information(self, '提示', '姓名不可为空')
+            return
+        if not self.lineEdit_4.text():
+            QMessageBox.information(self, '提示', '学号不可为空')
+            return
+        if not self.radioButton.isChecked() and not self.radioButton_2.isChecked():
+            QMessageBox.information(self, '提示', '性别不可为空')
+            return
+
+        if not self.comboBox.currentText():
+            QMessageBox.information(self, '提示', '年龄不可为空')
+            return
+        if not self.comboBox_2.currentText():
+            QMessageBox.information(self, '提示', '专业不可为空')
+            return
+        #判断是否已存在对应信息
+        all_content = json.loads(files.basic_file_read(self.file))
+        for key in all_content['student'].keys():
+            if self.lineEdit_3.text() == key:
+                QMessageBox.information(self, '提示', '已有该姓名，请重新填写')
+                self.lineEdit_3.setText('')
+                return
+            elif self.lineEdit_4.text() == all_content['student'][key]['Sno']:
+                QMessageBox.information(self, '提示', '已有该学号，请重新填写')
+                self.lineEdit_4.setText('')
+                return
+        #新增信息
+        with open(self.file, 'r', encoding='utf-8') as addstus:
+            content = json.load(addstus)
+            content['student'][self.lineEdit_3.text()] = {'Sno':str(self.lineEdit_4.text()),
+                                                          'age':self.comboBox.currentText(),
+                                                          'sex':self.radioButton.text() if self.radioButton.isChecked() else self.radioButton_2.text(),
+                                                          'is':self.comboBox_2.currentText(),
+                                                          'Course':''}
+        #转换为json格式
+        with open(self.file, 'w', encoding='utf-8') as f:
+            json.dump(content, f,ensure_ascii=False)  #ensure_ascii=False:转换时保持中文显示
+        QMessageBox.information(self, '提示', '添加成功')
+        self.lineEdit_3.setText('')
+        self.lineEdit_4.setText('')
+        self.radioButton.setCheckable(False)
+        self.radioButton_2.setCheckable(False)
+        self.comboBox.setCurrentIndex(0)
+        self.comboBox_2.setCurrentIndex(0)
+
+
+
+
 
