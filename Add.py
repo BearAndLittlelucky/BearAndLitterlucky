@@ -333,6 +333,7 @@ class Ui_Form(QWidget):
 
     #添加信息
     def addition(self):
+
         #判断必填项不为空
         if not self.lineEdit_3.text():
             QMessageBox.information(self, '提示', '姓名不可为空')
@@ -375,10 +376,14 @@ class Ui_Form(QWidget):
         QMessageBox.information(self, '提示', '添加成功')
         self.lineEdit_3.setText('')
         self.lineEdit_4.setText('')
+        # 清空选项
         self.radioButton.setCheckable(False)
         self.radioButton_2.setCheckable(False)
         self.comboBox.setCurrentIndex(0)
         self.comboBox_2.setCurrentIndex(0)
+        #恢复可选状态
+        self.radioButton.setCheckable(True)
+        self.radioButton_2.setCheckable(True)
 
 
 
