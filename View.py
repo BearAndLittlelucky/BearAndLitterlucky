@@ -14,7 +14,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
-import IMS.Update
+import IMS.New_update as new
 
 ##############################################################################
 ####???无返回值？？？？？
@@ -29,10 +29,9 @@ class EmptyDelegate(QItemDelegate):
 
 
 class view(QWidget,QObject):
-    sendmsg = pyqtSignal(str, str, str, str, str, str)
-    def setupUi(self,file,listWidget):
+    def setupUi(self,file):
         self.file = file
-        self.listWidget = listWidget
+        self.form = QWidget()
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -100,9 +99,24 @@ class view(QWidget,QObject):
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         #设置整行选中
         self.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-
         self.verticalLayout.addWidget(self.tableWidget)
+
+        # 添加模块
+        self.horizontalLayout_1 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_1.setObjectName("horizontalLayout")
+        self.pushButton1 = QtWidgets.QPushButton()
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(2)
+        sizePolicy.setVerticalStretch(1)
+        sizePolicy.setHeightForWidth(self.pushButton1.sizePolicy().hasHeightForWidth())
+        self.pushButton1.setSizePolicy(sizePolicy)
+        self.pushButton1.setObjectName("pushButton")
+        self.pushButton1.setText("添加")
+        self.pushButton1.setMinimumSize(QtCore.QSize(500, 30))
+        self.pushButton1.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.pushButton1.clicked.connect(lambda: self.change(0,2)) #2为标志位，代表添加功能
+        self.horizontalLayout_1.addWidget(self.pushButton1)
+        self.verticalLayout.addLayout(self.horizontalLayout_1)
 
         return self.verticalLayout
 
@@ -111,7 +125,7 @@ class view(QWidget,QObject):
         cell_widget = QWidget()
         horizontalLayout = QtWidgets.QHBoxLayout(cell_widget)
         locals()['but0'+str(i)] = QtWidgets.QPushButton("修改")
-        locals()['but0'+str(i)].clicked.connect(lambda :self.change(i))
+        locals()['but0'+str(i)].clicked.connect(lambda :self.change(i,1)) #1为标志位，代表修改功能
         locals()['but1'+str(i)] = QtWidgets.QPushButton("删除")
         locals()['but1'+str(i)].clicked.connect(lambda: self.dele(i))
         horizontalLayout.addWidget(locals()['but0'+str(i)])
@@ -126,19 +140,19 @@ class view(QWidget,QObject):
         self.tableWidget.setItemDelegateForColumn(i, EmptyDelegate(self))  # 设置不可编辑????????
         self.tableWidget.setCellWidget(i, 6, cell_widget)
 
-    def change(self,i):
+    def change(self,i,n):
+        if n == 1:
+            index = self.tableWidget.item(i,1).text()
+            new.Ui_Form().setupUi(self.form,self.file,index,self.tableWidget,0) #修改时传入的参数，0判断为修改
+        elif n == 2:
+            new.Ui_Form().setupUi(self.form,self.file,'',self.tableWidget,1)# 1判断为添加
+        self.form.show()
 
-        upde = IMS.Update.Ui_Form(self.file,
-                                     self.tableWidget.item(i,1).text(),
-                                     self.tableWidget.item(i,0).text(),
-                                     self.tableWidget.item(i,2).text(),
-                                     self.tableWidget.item(i,3).text(),
-                                     self.tableWidget.item(i,4).text(),
-                                     self.tableWidget.item(i,5).text())
-
-        #upde.setupUi(form)
-        #self.listWidget.setCurrentRow(2)
-
+    def add(self):
+        # self.form = QWidget()
+        # MainWindow = new.Ui_Form().setupUi(self.form, self.file, index, self.tableWidget)
+        # self.form.show()
+        pass
 
     # 删除学生信息的模块
     def dele(self,i):
@@ -152,7 +166,7 @@ class view(QWidget,QObject):
                 if key == delstu_name:
                     del content['student'][key]
                     QMessageBox.information(self, '提示', '删除成功')
-                    self.tableWidget.setRowCount(0)
+                    self.tableWidget.setRowCount(0)  #清空列表
                     break
             else:
                 QMessageBox.information(self, '提示', '未找到这名同学的信息')

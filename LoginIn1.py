@@ -30,37 +30,6 @@ class Ui_MainWindow(QMainWindow):
         pixmap = QPixmap("D:\Project\IMS\软件界面\\2.jpg")  # 换成自己的图片的相对路径
         painter.drawPixmap(self.rect(), pixmap)
 
-    # # mouse Press window event
-    # def mousePressEvent(self, event):
-    #     if event.button() == Qt.LeftButton:
-    #         #globalPos()获取根窗口的相对路径，frameGeometry().topLeft()获取主窗口左上角的位置
-    #         self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
-    #         #QApplication.postEvent(self, QEvent(174))
-    #         event.accept() # 鼠标事件被系统接收
-    #
-    # # mouse move window event
-    # def mouseMoveEvent(self, event):
-    #     #self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
-    #     if event.buttons() == Qt.LeftButton:
-    #         self.move(event.globalPos() - self.dragPosition)
-    #         event.accept()
-
-    # def mousePressEvent(self, event):
-    #     if event.button() == Qt.LeftButton:
-    #         self.m_flag = True
-    #         self.m_Position = event.globalPos() - self.pos()  # 获取鼠标相对窗口的位置
-    #         event.accept()
-    #         self.setCursor(QCursor(Qt.OpenHandCursor))  # 更改鼠标图标
-    #
-    # def mouseMoveEvent(self, QMouseEvent):
-    #     if Qt.LeftButton and self.m_flag:
-    #         self.move(QMouseEvent.globalPos() - self.m_Position)  # 更改窗口位置
-    #         QMouseEvent.accept()
-    #
-    # def mouseReleaseEvent(self, QMouseEvent):
-    #     self.m_flag = False
-    #     self.setCursor(QCursor(Qt.ArrowCursor))
-
     # MainWindow
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -279,6 +248,7 @@ class Ui_MainWindow(QMainWindow):
     def examine_name_pwd(self,user_name, user_psw):
         # 验证账号密码是否正确
         file = 'D:\Project\IMS\\UserInfo\\' + user_name + '.json'
+        print(file)
         dict1 = {}
         try:
             dict1 = json.loads(files.basic_file_read(file))  # 通过loads将json格式的文件转换成python格式的字典

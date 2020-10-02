@@ -5,7 +5,7 @@
 @license: (C) Copyright 2020-, Node Supply Chain Manager Corporation Limited.
 @file: Uodate.py
 @time: 2020/9/21 22:25
-@desc:  ####未完成修改功能！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！1
+@desc:  ####未完成修改功能！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 '''
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
