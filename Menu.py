@@ -57,7 +57,7 @@ class Ui_Form(QWidget):
                                       "QListWidget::item:selected{background:LightGreen; color:DimGrey;}" # 选中时
                                       )
         # set listWidget item style
-        View = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"),'View')
+        View = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"),'学生基本信息')
         #View.setTextAlignment(Qt.AlignHCenter|Qt.AlignVCenter)
         continue1 = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), 'continue1')
         continue2 = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), 'continue2')

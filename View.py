@@ -81,6 +81,7 @@ class view(QWidget,QObject):
         self.pushButton.setSizePolicy(sizePolicy)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setText("查找")
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton.clicked.connect(lambda: self.upd())
         self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -112,6 +113,7 @@ class view(QWidget,QObject):
         self.pushButton1.setSizePolicy(sizePolicy)
         self.pushButton1.setObjectName("pushButton")
         self.pushButton1.setText("添加")
+        self.pushButton1.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton1.setMinimumSize(QtCore.QSize(500, 30))
         self.pushButton1.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.pushButton1.clicked.connect(lambda: self.change(0,2)) #2为标志位，代表添加功能
@@ -125,8 +127,10 @@ class view(QWidget,QObject):
         cell_widget = QWidget()
         horizontalLayout = QtWidgets.QHBoxLayout(cell_widget)
         locals()['but0'+str(i)] = QtWidgets.QPushButton("修改")
+        locals()['but0'+str(i)].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         locals()['but0'+str(i)].clicked.connect(lambda :self.change(i,1)) #1为标志位，代表修改功能
         locals()['but1'+str(i)] = QtWidgets.QPushButton("删除")
+        locals()['but1'+str(i)].setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         locals()['but1'+str(i)].clicked.connect(lambda: self.dele(i))
         horizontalLayout.addWidget(locals()['but0'+str(i)])
         horizontalLayout.addWidget(locals()['but1'+str(i)])
