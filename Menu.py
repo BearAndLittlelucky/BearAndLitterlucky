@@ -16,7 +16,7 @@ import IMS.LoginIn1
 import IMS.Delete
 import IMS.View
 import IMS.Add
-import IMS.Update
+import IMS.View_sql
 
 
 
@@ -57,13 +57,12 @@ class Ui_Form(QWidget):
                                       "QListWidget::item:selected{background:LightGreen; color:DimGrey;}" # 选中时
                                       )
         # set listWidget item style
-        View = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"),'学生基本信息')
-        #View.setTextAlignment(Qt.AlignHCenter|Qt.AlignVCenter)
-        continue1 = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), 'continue1')
+        View_sql = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"),'学生基本信息(MySQL版)')
+        View = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), '学生基本信息(json版)')
         continue2 = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), 'continue2')
         continue3 = QListWidgetItem(QIcon("D:\Project\IMS\\frequency.ico"), 'continue3')
-        self.listWidget.insertItem(0, View)
-        self.listWidget.insertItem(1, continue1)
+        self.listWidget.insertItem(0, View_sql)
+        self.listWidget.insertItem(1, View)
         self.listWidget.insertItem(2, continue2)
         self.listWidget.insertItem(3, continue3)
         self.listWidget.currentRowChanged.connect(self.display)
@@ -82,18 +81,18 @@ class Ui_Form(QWidget):
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
         self.stackedWidget.addWidget(self.page_3)
-        self.page_3.setLayout(IMS.View.view().setupUi(self.file))
+        self.page_3.setLayout(IMS.View_sql.view().setupUi())  #通过MySQL存储数据
 
         self.page_4 = QtWidgets.QWidget()
         self.page_4.setObjectName("page_4")
         self.stackedWidget.addWidget(self.page_4)
         self.page_5 = QtWidgets.QWidget()
-        self.page_4.setLayout(IMS.Add.Ui_Form().setupUi(self.file))
+        self.page_4.setLayout(IMS.View.view().setupUi(self.file)) #通过json存储数据
 
         self.page_5.setObjectName("page_5")
         self.stackedWidget.addWidget(self.page_5)
         self.page_6 = QtWidgets.QWidget()
-        self.page_5.setLayout(IMS.Update.Ui_Form(self.file,'aaa','','','','','').setupUi())
+        self.page_5.setLayout(IMS.Delete.Ui_Form().setupUi(self.file))
 
         self.page_6.setObjectName("page_6")
         self.stackedWidget.addWidget(self.page_6)

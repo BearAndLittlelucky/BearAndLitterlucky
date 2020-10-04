@@ -152,12 +152,6 @@ class view(QWidget,QObject):
             new.Ui_Form().setupUi(self.form,self.file,'',self.tableWidget,1)# 1判断为添加
         self.form.show()
 
-    def add(self):
-        # self.form = QWidget()
-        # MainWindow = new.Ui_Form().setupUi(self.form, self.file, index, self.tableWidget)
-        # self.form.show()
-        pass
-
     # 删除学生信息的模块
     def dele(self,i):
         repy = QMessageBox.warning(self, "删除提示", "是否确定删除？", QMessageBox.Yes | QMessageBox.No)
